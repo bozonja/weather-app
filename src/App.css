@@ -2,3 +2,38 @@ body {
   background-color: #333;
   color: white;
 }
+
+input {
+  width: 100%;
+  min-height: 2rem;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  color: white;
+  font-weight: 700;
+  text-transform: uppercase;
+  background-color: #ab1919;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #bf2222;
+}
+
+.container {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.text-center {
+  text-align: center;
+}
