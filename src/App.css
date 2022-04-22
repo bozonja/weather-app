@@ -1,5 +1,5 @@
 body {
-  background-color: #333;
+  background-color: #006e87;
   color: white;
 }
 
@@ -18,15 +18,15 @@ label {
 button {
   padding: 0.5rem 1rem;
   border: none;
-  color: white;
+  color: black;
   font-weight: 700;
   text-transform: uppercase;
-  background-color: #ab1919;
+  background-color: #cdc708;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #bf2222;
+  background-color: #dbd402;
 }
 
 .container {
