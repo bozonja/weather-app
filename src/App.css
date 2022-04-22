@@ -51,3 +51,7 @@ a:hover {
 .text-right {
   text-align: right;
 }
+
+.error {
+  color: #ff7272;
+}

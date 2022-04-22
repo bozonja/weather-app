@@ -10,15 +10,26 @@ interface ILogin {
 
 const Login: FC = () => {
   const [user, setUser] = useState<ILogin>({ email: "", password: "" });
+  const [error, setError] = useState<string>("");
 
   const navigate = useNavigate();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setUser({ email: "", password: "" });
-    if (user.email && user.password !== "") {
+
+    if (
+      user.email &&
+      user.password !== "" &&
+      user.email === adminCredentails.email &&
+      user.password === adminCredentails.password
+    ) {
       navigate("/weather");
-    }
+    } else if (
+      user.email !== adminCredentails.email &&
+      user.password !== adminCredentails.password
+    )
+      setError("Login Failed. Your email and/or password do not match");
   };
 
   const adminCredentails = {
@@ -54,7 +65,16 @@ const Login: FC = () => {
           lowercase letter, and at least 8 or more characters"
         />
       </div>
-      <button type="submit">Login</button>
+      {error ? (
+        <>
+          <p className="error">{error}</p>
+          <button type="button" onClick={() => setError("")}>
+            Try again
+          </button>
+        </>
+      ) : (
+        <button type="submit">Login</button>
+      )}
     </form>
   );
 };
