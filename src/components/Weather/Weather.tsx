@@ -2,8 +2,7 @@ import { FC, SetStateAction, Dispatch, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 //types
-//TODO add relative imports
-import { IUserLogin } from "../../types/form";
+import { IUserLogin } from "types/form";
 
 interface IWeather {
   user: IUserLogin;

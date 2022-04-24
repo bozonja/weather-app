@@ -3,7 +3,11 @@ import { FC, FormEvent, useState } from "react";
 import "./Login.css";
 
 //types
-import { IUserLogin } from "../../types/form";
+import { IUserLogin } from "types/form";
+import { EyeIcon } from "assets/eyeIcon/EyeIcon";
+import { EyeSlashIcon } from "assets/EyeSlashIcon";
+//assets
+// import eyeIcon from "assets/eyeIcon.svg";
 
 interface ILogin {
   error: string;
@@ -15,10 +19,15 @@ const Login: FC<ILogin> = ({ handleLogin, error }) => {
     email: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     handleLogin(userData);
+  };
+
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -36,11 +45,11 @@ const Login: FC<ILogin> = ({ handleLogin, error }) => {
           title="Please enter valid email"
         />
       </div>
-      <div>
+      <div className="form-group">
         <label>Password</label>
         {/* TODO: add toggle password icon */}
         <input
-          type="password"
+          type={showPassword ? "text" : "password"}
           value={userData.password}
           placeholder="enter password"
           onChange={(e) =>
@@ -51,6 +60,12 @@ const Login: FC<ILogin> = ({ handleLogin, error }) => {
           title="Must contain at least one  number and one uppercase and 
           lowercase letter, and at least 8 or more characters"
         />
+        {/* <img src={eyeIcon} alt=""/> */}
+        {showPassword ? (
+          <EyeSlashIcon onClick={togglePassword} />
+        ) : (
+          <EyeIcon onClick={togglePassword} />
+        )}
       </div>
       {error && <p className="error">{error}</p>}
       <button type="submit">Login</button>

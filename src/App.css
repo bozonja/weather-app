@@ -10,6 +10,10 @@ input {
   font-size: 1rem;
 }
 
+input[type="password"] {
+  font-size: 1.5rem;
+}
+
 label {
   display: block;
   margin-bottom: 0.3rem;
@@ -54,4 +58,8 @@ a:hover {
 
 .error {
   color: #ff7272;
+}
+
+.form-group {
+  position: relative;
 }
