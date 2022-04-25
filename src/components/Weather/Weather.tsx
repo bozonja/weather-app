@@ -1,5 +1,5 @@
 import { FC, SetStateAction, Dispatch, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 //types
 import { IUserLogin } from "types/form";
@@ -10,13 +10,7 @@ interface IWeather {
 }
 
 const Weather: FC<IWeather> = ({ user }) => {
-  const navigate = useNavigate();
-
   const [loggedOut, setLoggedOut] = useState(false);
-
-  const onBackToHome = () => {
-    navigate("/");
-  };
 
   const handleLogout = () => {
     console.log("Logged out");
@@ -31,8 +25,9 @@ const Weather: FC<IWeather> = ({ user }) => {
             ""
           ) : (
             <div className="text-right">
-              {/* TODO: add href link insted of button */}
-              <button onClick={handleLogout}>Log out</button>
+              <button className="btn-link" onClick={handleLogout}>
+                Log out
+              </button>
             </div>
           )}
         </>
@@ -40,7 +35,7 @@ const Weather: FC<IWeather> = ({ user }) => {
       {loggedOut && (
         <>
           <p>You have been logged out.</p>
-          <button onClick={onBackToHome}>Back to home</button>
+          <Link to="/">Back to home</Link>
         </>
       )}
     </>

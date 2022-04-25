@@ -1,12 +1,11 @@
 import { FC } from "react";
 
+//css
 import "./eye-icon.css";
+//types
+import { IEyeIcon } from "types/icons";
 
-interface eyeIcon {
-  onClick: () => void;
-}
-
-export const EyeSlashIcon: FC<eyeIcon> = ({ onClick }) => {
+export const EyeSlashIcon: FC<IEyeIcon> = ({ onClick }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
