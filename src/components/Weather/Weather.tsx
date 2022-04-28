@@ -17,6 +17,7 @@ const Weather: FC<IWeather> = ({ user, setUser }) => {
     setLogOutNotification(true);
     setUser({
       email: "",
+      date: "",
     });
   };
 

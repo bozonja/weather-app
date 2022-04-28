@@ -15,9 +15,16 @@ function App() {
     email: "admin@admin.com",
     password: "Admin123",
   };
-  const date = new Date();
 
-  const [user, setUser] = useState<IUserLogin>({ email: "" });
+  const date = new Date();
+  const day = date.getUTCDate();
+  const month = date.getUTCMonth() + 1;
+  const year = date.getFullYear();
+
+  const [user, setUser] = useState<IUserLogin>({
+    email: "",
+    date: "",
+  });
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
 
@@ -30,7 +37,7 @@ function App() {
     ) {
       setError("");
       navigate("/weather");
-      setUser({ email: userData.email });
+      setUser({ email: userData.email, date: day + "/" + month + "/" + year });
       console.log("Logged in", userData.email);
     } else if (
       userData.email !== adminCredentails.email ||
@@ -42,7 +49,6 @@ function App() {
 
   useEffect(() => {
     const localData = localStorage.getItem("USER");
-
     if (localData) {
       setUser(JSON.parse(localData));
     }
@@ -59,9 +65,18 @@ function App() {
         <Route
           path="/"
           element={
-            <Login checkLoginData={checkLoginData} user={user} error={error} />
+            user.email === "" ? (
+              <Login
+                checkLoginData={checkLoginData}
+                user={user}
+                error={error}
+              />
+            ) : (
+              <Weather setUser={setUser} user={user} />
+            )
           }
         />
+
         <Route
           path="/weather"
           element={<Weather setUser={setUser} user={user} />}
