@@ -71,3 +71,7 @@ a:hover {
   text-decoration: none;
   background-color: transparent;
 }
+
+.mb-lg {
+  margin-bottom: 3rem;
+}

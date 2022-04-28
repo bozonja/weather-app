@@ -1,21 +1,22 @@
 import { FC, FormEvent, useState } from "react";
 
+//css
 import "./Login.css";
-
 //types
-import { IUserLogin } from "types/form";
+import { IUserData } from "types/form";
 import { EyeIcon } from "assets/eyeIcon/EyeIcon";
 import { EyeSlashIcon } from "assets/EyeSlashIcon";
 //assets
 // import eyeIcon from "assets/eyeIcon.svg";
 
 interface ILogin {
+  user: { email: string };
   error: string;
-  handleLogin: (userData: { email: string; password: string }) => void;
+  checkLoginData: (userData: { email: string; password: string }) => void;
 }
 
-const Login: FC<ILogin> = ({ handleLogin, error }) => {
-  const [userData, setUserData] = useState<IUserLogin>({
+const Login: FC<ILogin> = ({ checkLoginData, error, user }) => {
+  const [userData, setUserData] = useState<IUserData>({
     email: "",
     password: "",
   });
@@ -23,7 +24,7 @@ const Login: FC<ILogin> = ({ handleLogin, error }) => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    handleLogin(userData);
+    checkLoginData(userData);
   };
 
   const togglePassword = () => {
@@ -47,7 +48,6 @@ const Login: FC<ILogin> = ({ handleLogin, error }) => {
       </div>
       <div className="form-group">
         <label>Password</label>
-        {/* TODO: add toggle password icon */}
         <input
           type={showPassword ? "text" : "password"}
           value={userData.password}

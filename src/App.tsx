@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 
 //css
@@ -10,30 +10,28 @@ import Weather from "./components/Weather/Weather";
 import { IUserLogin } from "./types/form";
 
 function App() {
-  const navigate = useNavigate();
+  //fake database
   const adminCredentails = {
     email: "admin@admin.com",
     password: "Admin123",
   };
+  const date = new Date();
 
-  const [user, setUser] = useState<IUserLogin>({
-    email: "",
-    password: "",
-  });
+  const [user, setUser] = useState<IUserLogin>({ email: "" });
   const [error, setError] = useState<string>("");
+  const navigate = useNavigate();
 
-  const handleLogin = (userData: { email: string; password: string }) => {
+  const checkLoginData = (userData: { email: string; password: string }) => {
     if (
       userData.email &&
       userData.password !== "" &&
       userData.email === adminCredentails.email &&
       userData.password === adminCredentails.password
     ) {
-      setUser({ email: userData.email, password: userData.password });
-
       setError("");
       navigate("/weather");
-      console.log("Logged in");
+      setUser({ email: userData.email });
+      console.log("Logged in", userData.email);
     } else if (
       userData.email !== adminCredentails.email ||
       userData.password !== adminCredentails.password
@@ -42,13 +40,21 @@ function App() {
     }
   };
 
+  console.log(user);
+
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(user) + " " + date);
+  }, [user]);
+
   return (
     <div className="container">
       <h1 className="text-center">Weather App</h1>
       <Routes>
         <Route
           path="/"
-          element={<Login handleLogin={handleLogin} error={error} />}
+          element={
+            <Login checkLoginData={checkLoginData} user={user} error={error} />
+          }
         />
         <Route
           path="/weather"

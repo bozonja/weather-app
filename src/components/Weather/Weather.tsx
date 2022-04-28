@@ -9,33 +9,38 @@ interface IWeather {
   setUser: Dispatch<SetStateAction<IUserLogin>>;
 }
 
-const Weather: FC<IWeather> = ({ user }) => {
-  const [loggedOut, setLoggedOut] = useState(false);
+const Weather: FC<IWeather> = ({ user, setUser }) => {
+  const [logOutNotification, setLogOutNotification] = useState(false);
 
   const handleLogout = () => {
     console.log("Logged out");
-    setLoggedOut(true);
+    setLogOutNotification(true);
+    setUser({
+      email: "",
+    });
   };
 
   return (
     <>
-      {user.email !== "" && (
+      {user.email !== "" ? (
         <>
-          {loggedOut ? (
-            ""
-          ) : (
-            <div className="text-right">
-              <button className="btn-link" onClick={handleLogout}>
-                Log out
-              </button>
-            </div>
-          )}
+          <div className="text-right mb-lg">
+            <button className="btn-link" onClick={handleLogout}>
+              Log out
+            </button>
+          </div>
+          <div>
+            <input type="text" placeholder="City..." />
+          </div>
         </>
-      )}
-      {loggedOut && (
+      ) : (
         <>
-          <p>You have been logged out.</p>
-          <Link to="/">Back to home</Link>
+          <p>
+            {logOutNotification
+              ? "You have been logged out."
+              : "You must be logged in to use the app"}
+          </p>
+          <Link to="/">Back to login</Link>
         </>
       )}
     </>
