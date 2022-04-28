@@ -40,11 +40,17 @@ function App() {
     }
   };
 
-  console.log(user);
+  useEffect(() => {
+    const localData = localStorage.getItem("USER");
+
+    if (localData) {
+      setUser(JSON.parse(localData));
+    }
+  }, []);
 
   useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(user) + " " + date);
-  }, [user]);
+    localStorage.setItem("USER", JSON.stringify(user));
+  });
 
   return (
     <div className="container">
