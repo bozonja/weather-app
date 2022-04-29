@@ -39,6 +39,12 @@ a:hover {
   text-decoration: none;
 }
 
+h1,
+h2,
+h3 {
+  margin-top: 0;
+}
+
 .container {
   width: 70%;
   margin: 0 auto;
@@ -58,6 +64,7 @@ a:hover {
 
 .form-group {
   position: relative;
+  margin-bottom: 1rem;
 }
 
 .btn-link {
@@ -74,4 +81,12 @@ a:hover {
 
 .mb-lg {
   margin-bottom: 3rem;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.font-lg {
+  font-size: 4rem;
 }
