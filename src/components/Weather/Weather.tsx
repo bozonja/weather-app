@@ -44,6 +44,8 @@ const Weather: FC<IWeather> = ({ user, setUser }) => {
 
   const [logOutNotification, setLogOutNotification] = useState<boolean>(false);
   const [city, setCity] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState(null);
   const [weather, setWeather] = useState<IWeatherApi>({
     name: "",
     sys: { country: "" },
@@ -53,14 +55,27 @@ const Weather: FC<IWeather> = ({ user, setUser }) => {
 
   const searchCity = (e: FormEvent) => {
     e.preventDefault();
-    fetch(`${api.url}weather?q=${city}&units=metric&appid=${api.key}`).then(
-      (res) =>
-        res.json().then((data) => {
-          console.log(data);
-          setCity("");
-          setWeather(data);
-        })
-    );
+    setLoading(true);
+
+    fetch(`${api.url}weather?q=${city}&units=metric&appid=${api.key}`)
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("Failed to fetch data");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setLoading(false);
+        setError(null);
+        setCity("");
+        setWeather(data);
+      })
+      .catch((error) => {
+        setLoading(false);
+        setError(error.message);
+        setCity("");
+      });
   };
 
   const handleLogout = () => {
@@ -98,9 +113,12 @@ const Weather: FC<IWeather> = ({ user, setUser }) => {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
               />
-              <button type="submit">Search City</button>
+              <button type="submit">
+                {loading ? "Loading..." : "Search City"}
+              </button>
             </div>
           </form>
+          {error && <p className="error"> {error}</p>}
           {weather.name && (
             <div>
               <h2 className="text-center mb-0">
