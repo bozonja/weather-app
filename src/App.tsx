@@ -38,7 +38,6 @@ function App() {
       setError("");
       navigate("/weather");
       setUser({ email: userData.email, date: day + "/" + month + "/" + year });
-      console.log("Logged in", userData.email);
     } else if (
       userData.email !== adminCredentails.email ||
       userData.password !== adminCredentails.password

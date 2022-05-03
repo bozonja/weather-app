@@ -3,8 +3,9 @@ export interface IWeather {
 }
 
 export interface IWeatherApi {
+  id?: number;
   name: string;
-  sys: { country: "" };
+  sys: { country: string };
   main: { temp: number };
   weather: IWeather[];
 }

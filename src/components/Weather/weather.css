@@ -1,0 +1,16 @@
+.weather-cards {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.weather-card {
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #018aa9;
+  cursor: pointer;
+}
+
+.weather-card:hover {
+  background-color: #0497b9;
+}

@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 //types
 import { IWeatherApi } from "types/weather-api";
 import { IUserLogin } from "types/form";
+//css
+import "./weather.css";
 
 interface IWeather {
   user: IUserLogin;
@@ -46,12 +48,7 @@ const Weather: FC<IWeather> = ({ user, setUser }) => {
   const [city, setCity] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState(null);
-  const [weather, setWeather] = useState<IWeatherApi>({
-    name: "",
-    sys: { country: "" },
-    main: { temp: 0 },
-    weather: [],
-  });
+  const [weather, setWeather] = useState<IWeatherApi[]>([]);
 
   const searchCity = (e: FormEvent) => {
     e.preventDefault();
@@ -65,11 +62,10 @@ const Weather: FC<IWeather> = ({ user, setUser }) => {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         setLoading(false);
         setError(null);
         setCity("");
-        setWeather(data);
+        setWeather([...weather, data]);
       })
       .catch((error) => {
         setLoading(false);
@@ -79,7 +75,6 @@ const Weather: FC<IWeather> = ({ user, setUser }) => {
   };
 
   const handleLogout = () => {
-    console.log("Logged out");
     setLogOutNotification(true);
     setUser({
       email: "",
@@ -113,24 +108,31 @@ const Weather: FC<IWeather> = ({ user, setUser }) => {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
               />
-              <button type="submit">
-                {loading ? "Loading..." : "Search City"}
+              <button type="submit" disabled={weather.length === 10}>
+                Search City
               </button>
             </div>
           </form>
           {error && <p className="error"> {error}</p>}
-          {weather.name && (
-            <div>
-              <h2 className="text-center mb-0">
-                {weather.name}, {weather.sys.country}
-              </h2>
-              <p className="text-center">{createDate(dateObject)}</p>
-              <h3 className="text-center font-lg mb-0">
-                {Math.floor(weather.main.temp)}° C
-              </h3>
-              <p className="text-center">{weather.weather[0].main}</p>
-            </div>
+          {weather.length === 10 && (
+            <p className="error">You´ve added max number of cities.</p>
           )}
+          {loading && <p>Loading...</p>}
+          <div className="weather-cards">
+            {weather &&
+              weather.map((item: IWeatherApi) => (
+                <div key={item.id} className="weather-card">
+                  <h2 className="text-center mb-0">
+                    {item.name}, {item.sys.country}
+                  </h2>
+                  <p className="text-center">{createDate(dateObject)}</p>
+                  <h3 className="text-center font-lg mb-0">
+                    {Math.floor(item.main.temp)}° C
+                  </h3>
+                  <p className="text-center">{item.weather[0].main}</p>
+                </div>
+              ))}
+          </div>
         </>
       ) : (
         <>

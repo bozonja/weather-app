@@ -25,6 +25,17 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  border: 1px solid grey;
+  color: grey;
+  background-color: #037a95;
+  cursor: not-allowed;
+}
+
+button:disabled:hover {
+  background-color: #037a95;
+}
+
 button:hover {
   background-color: #dbd402;
 }
