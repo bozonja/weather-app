@@ -6,11 +6,13 @@ import "./App.css";
 //comps
 import Login from "./components/Login/Login";
 import Weather from "./components/Weather/Weather";
+import { WeatherDetails } from "components/WeatherDetails/WeatherDetails";
+import { NotFound } from "components/NotFound";
 //types
 import { IUserLogin } from "./types/form";
 
 function App() {
-  //fake database
+  //fake database credentials
   const adminCredentails = {
     email: "admin@admin.com",
     password: "Admin123",
@@ -25,6 +27,8 @@ function App() {
     email: "",
     date: "",
   });
+  const USER = "USER";
+
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
 
@@ -47,19 +51,19 @@ function App() {
   };
 
   useEffect(() => {
-    const localData = localStorage.getItem("USER");
+    const localData = localStorage.getItem(USER);
     if (localData) {
       setUser(JSON.parse(localData));
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("USER", JSON.stringify(user));
+    localStorage.setItem(USER, JSON.stringify(user));
   });
 
   return (
     <div className="container">
-      <h1 className="text-center">Weather App</h1>
+      <h1 className="text-center h1-lg">Weather App</h1>
       <Routes>
         <Route
           path="/"
@@ -75,11 +79,12 @@ function App() {
             )
           }
         />
-
         <Route
           path="/weather"
           element={<Weather setUser={setUser} user={user} />}
         />
+        <Route path="/weather/:city" element={<WeatherDetails />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );

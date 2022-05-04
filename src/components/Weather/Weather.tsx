@@ -65,7 +65,8 @@ const Weather: FC<IWeather> = ({ user, setUser }) => {
         setLoading(false);
         setError(null);
         setCity("");
-        setWeather([...weather, data]);
+        if (!weather.some((item: IWeatherApi) => item.id === data.id))
+          setWeather([...weather, data]);
       })
       .catch((error) => {
         setLoading(false);
@@ -121,16 +122,18 @@ const Weather: FC<IWeather> = ({ user, setUser }) => {
           <div className="weather-cards">
             {weather &&
               weather.map((item: IWeatherApi) => (
-                <div key={item.id} className="weather-card">
-                  <h2 className="text-center mb-0">
-                    {item.name}, {item.sys.country}
-                  </h2>
-                  <p className="text-center">{createDate(dateObject)}</p>
-                  <h3 className="text-center font-lg mb-0">
-                    {Math.floor(item.main.temp)}° C
-                  </h3>
-                  <p className="text-center">{item.weather[0].main}</p>
-                </div>
+                <Link to={`/weather/${item.name}`} key={item.id}>
+                  <div className="weather-card">
+                    <h2 className="text-center mb-0">
+                      {item.name}, {item.sys.country}
+                    </h2>
+                    <p className="text-center">{createDate(dateObject)}</p>
+                    <h3 className="text-center font-lg mb-0">
+                      {Math.floor(item.main.temp)}° C
+                    </h3>
+                    <p className="text-center">{item.weather[0].main}</p>
+                  </div>
+                </Link>
               ))}
           </div>
         </>
