@@ -9,3 +9,7 @@ export interface IWeatherApi {
   main: { temp: number };
   weather: IWeather[];
 }
+
+export interface IWeatherDetailsApi {
+  cnt: number;
+}

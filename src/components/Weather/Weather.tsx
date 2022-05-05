@@ -6,6 +6,9 @@ import { IWeatherApi } from "types/weather-api";
 import { IUserLogin } from "types/form";
 //css
 import "./weather.css";
+//helpers
+import { daysArray } from "helpers/helpers";
+import { api } from "helpers/helpers";
 
 interface IWeather {
   user: IUserLogin;
@@ -13,11 +16,6 @@ interface IWeather {
 }
 
 const Weather: FC<IWeather> = ({ user, setUser }) => {
-  const api = {
-    key: "7cb40073f41142bd9bb5979928aa8810",
-    url: "https://api.openweathermap.org/data/2.5/",
-  };
-
   const months = [
     "January",
     "February",
@@ -33,15 +31,6 @@ const Weather: FC<IWeather> = ({ user, setUser }) => {
     "December",
   ];
 
-  const days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
   const dateObject = new Date();
 
   const [logOutNotification, setLogOutNotification] = useState<boolean>(false);
@@ -64,6 +53,7 @@ const Weather: FC<IWeather> = ({ user, setUser }) => {
       .then((data) => {
         setLoading(false);
         setError(null);
+        console.log(data);
         setCity("");
         if (!weather.some((item: IWeatherApi) => item.id === data.id))
           setWeather([...weather, data]);
@@ -84,7 +74,7 @@ const Weather: FC<IWeather> = ({ user, setUser }) => {
   };
 
   const createDate = (dateObject: Date) => {
-    const day = days[dateObject.getDay()];
+    const day = daysArray[dateObject.getDay()];
     const date = dateObject.getDate();
     const month = months[dateObject.getMonth()];
     const year = dateObject.getFullYear();
