@@ -12,8 +12,7 @@ import { api } from "helpers/helpers";
 export const WeatherDetails: FC = () => {
   const { city } = useParams();
 
-  // TODO: fix types properly
-  const [forecast, setForecast] = useState<any>([]);
+  const [forecast, setForecast] = useState<IWeatherDetailsApi[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState(null);
 
@@ -32,6 +31,7 @@ export const WeatherDetails: FC = () => {
       .then((data) => {
         setLoading(false);
         setError(null);
+        console.log(data.daily);
         setForecast(data.daily);
       })
       .catch((error) => {
@@ -47,7 +47,7 @@ export const WeatherDetails: FC = () => {
       {error && <div className="error">{error}</div>}
       <div className="day-cards">
         {forecast &&
-          forecast.map((item: any, i: any) => {
+          forecast.map((item: IWeatherDetailsApi, i: number) => {
             let dateObj = new Date(item.dt * 1000);
             if (i <= 4) {
               return (

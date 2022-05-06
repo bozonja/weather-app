@@ -1,15 +1,13 @@
-export interface IWeather {
-  main: string;
-}
-
 export interface IWeatherApi {
   id?: number;
   name: string;
   sys: { country: string };
   main: { temp: number };
-  weather: IWeather[];
+  weather: [{ main: string }];
 }
 
 export interface IWeatherDetailsApi {
-  cnt: number;
+  dt: number;
+  weather: [{ icon: string }];
+  temp: { min: number; max: number };
 }
