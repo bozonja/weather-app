@@ -10,6 +10,7 @@ import { WeatherDetails } from "components/WeatherDetails/WeatherDetails";
 import { NotFound } from "components/NotFound";
 //types
 import { IUserLogin } from "./types/form";
+import { IWeatherApi } from "types/weather-api";
 
 function App() {
   //fake database credentials
@@ -18,19 +19,23 @@ function App() {
     password: "Admin123",
   };
 
+  const USER = "USER";
+
   const date = new Date();
   const day = date.getUTCDate();
   const month = date.getUTCMonth() + 1;
   const year = date.getFullYear();
 
+  //hooks
+  const navigate = useNavigate();
   const [user, setUser] = useState<IUserLogin>({
     email: "",
     date: "",
   });
-  const USER = "USER";
-
-  const [error, setError] = useState<string>("");
-  const navigate = useNavigate();
+  const [loginError, setLoginError] = useState<string>("");
+  const [weather, setWeather] = useState<IWeatherApi[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState(null);
 
   const checkLoginData = (userData: { email: string; password: string }) => {
     if (
@@ -39,14 +44,14 @@ function App() {
       userData.email === adminCredentails.email &&
       userData.password === adminCredentails.password
     ) {
-      setError("");
+      setLoginError("");
       navigate("/weather");
       setUser({ email: userData.email, date: day + "/" + month + "/" + year });
     } else if (
       userData.email !== adminCredentails.email ||
       userData.password !== adminCredentails.password
     ) {
-      setError("Login Failed. Your email and/or password do not match");
+      setLoginError("Login Failed. Your email and/or password do not match");
     }
   };
 
@@ -72,16 +77,36 @@ function App() {
               <Login
                 checkLoginData={checkLoginData}
                 user={user}
-                error={error}
+                loginError={loginError}
               />
             ) : (
-              <Weather setUser={setUser} user={user} />
+              <Weather
+                setUser={setUser}
+                user={user}
+                weather={weather}
+                setWeather={setWeather}
+                error={error}
+                setError={setError}
+                loading={loading}
+                setLoading={setLoading}
+              />
             )
           }
         />
         <Route
           path="/weather"
-          element={<Weather setUser={setUser} user={user} />}
+          element={
+            <Weather
+              setUser={setUser}
+              user={user}
+              weather={weather}
+              setWeather={setWeather}
+              error={error}
+              setError={setError}
+              loading={loading}
+              setLoading={setLoading}
+            />
+          }
         />
         <Route path="/weather/:city" element={<WeatherDetails />} />
         <Route path="*" element={<NotFound />} />

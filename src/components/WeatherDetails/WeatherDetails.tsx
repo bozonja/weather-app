@@ -19,8 +19,7 @@ export const WeatherDetails: FC = () => {
   useEffect(() => {
     setLoading(true);
     fetch(
-      // TODO: REPLACE lat and lot with real data
-      `${api.url}onecall?&units=metric&lat=43.7036&lon=16.6394&exclude={current,minutely,hourly,alerts}&appid=${api.key}`
+      `${api.url}forecast/daily?&units=metric&q=${city}&cnt=5&appid=${api.key}`
     )
       .then((res) => {
         if (!res.ok) {
@@ -31,9 +30,9 @@ export const WeatherDetails: FC = () => {
       .then((data) => {
         setLoading(false);
         setError(null);
-        console.log(data.daily);
-        setForecast(data.daily);
+        setForecast(data.list);
       })
+
       .catch((error) => {
         setLoading(false);
         setError(error.message);
@@ -49,27 +48,26 @@ export const WeatherDetails: FC = () => {
         {forecast &&
           forecast.map((item: IWeatherDetailsApi, i: number) => {
             let dateObj = new Date(item.dt * 1000);
-            if (i <= 4) {
-              return (
-                <div key={i} className="day-card">
-                  <p className="text-center">{daysArray[dateObj.getDay()]}</p>
-                  <img
-                    src={`http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`}
-                    alt=""
-                  />
-                  <div className="temp">
-                    <div>
-                      <p className="mb-0">Min:</p>
-                      <p className="mt-0"> {Math.floor(item.temp.min)}°C</p>
-                    </div>
-                    <div>
-                      <p className="mb-0">Max:</p>
-                      <p className="mt-0"> {Math.floor(item.temp.max)}°C</p>
-                    </div>
+
+            return (
+              <div key={i} className="day-card">
+                <p className="text-center">{daysArray[dateObj.getDay()]}</p>
+                <img
+                  src={`http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`}
+                  alt=""
+                />
+                <div className="temp">
+                  <div>
+                    <p className="mb-0">Min:</p>
+                    <p className="mt-0"> {Math.floor(item.temp.min)}°C</p>
+                  </div>
+                  <div>
+                    <p className="mb-0">Max:</p>
+                    <p className="mt-0"> {Math.floor(item.temp.max)}°C</p>
                   </div>
                 </div>
-              );
-            }
+              </div>
+            );
           })}
       </div>
     </>

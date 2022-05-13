@@ -11,11 +11,11 @@ import { EyeSlashIcon } from "assets/EyeSlashIcon";
 
 interface ILogin {
   user: { email: string };
-  error: string;
+  loginError: string;
   checkLoginData: (userData: { email: string; password: string }) => void;
 }
 
-const Login: FC<ILogin> = ({ checkLoginData, error, user }) => {
+const Login: FC<ILogin> = ({ checkLoginData, loginError }) => {
   const [userData, setUserData] = useState<IUserData>({
     email: "",
     password: "",
@@ -67,7 +67,7 @@ const Login: FC<ILogin> = ({ checkLoginData, error, user }) => {
           <EyeIcon onClick={togglePassword} />
         )}
       </div>
-      {error && <p className="error">{error}</p>}
+      {loginError && <p className="error">{loginError}</p>}
       <button type="submit">Login</button>
     </form>
   );

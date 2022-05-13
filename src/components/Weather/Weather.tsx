@@ -13,9 +13,24 @@ import { api } from "helpers/helpers";
 interface IWeather {
   user: IUserLogin;
   setUser: Dispatch<SetStateAction<IUserLogin>>;
+  weather: IWeatherApi[];
+  setWeather: Dispatch<SetStateAction<IWeatherApi[]>>;
+  error: null | string;
+  setError: Dispatch<SetStateAction<null>>;
+  loading: boolean;
+  setLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-const Weather: FC<IWeather> = ({ user, setUser }) => {
+const Weather: FC<IWeather> = ({
+  user,
+  setUser,
+  weather,
+  setWeather,
+  error,
+  setError,
+  loading,
+  setLoading,
+}) => {
   const months = [
     "January",
     "February",
@@ -35,9 +50,6 @@ const Weather: FC<IWeather> = ({ user, setUser }) => {
 
   const [logOutNotification, setLogOutNotification] = useState<boolean>(false);
   const [city, setCity] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState(null);
-  const [weather, setWeather] = useState<IWeatherApi[]>([]);
 
   const searchCity = (e: FormEvent) => {
     e.preventDefault();
@@ -53,7 +65,6 @@ const Weather: FC<IWeather> = ({ user, setUser }) => {
       .then((data) => {
         setLoading(false);
         setError(null);
-        console.log(data);
         setCity("");
         if (!weather.some((item: IWeatherApi) => item.id === data.id))
           setWeather([...weather, data]);
@@ -90,7 +101,6 @@ const Weather: FC<IWeather> = ({ user, setUser }) => {
               Log out
             </button>
           </div>
-
           <form onSubmit={searchCity}>
             <div className="form-group">
               <input
