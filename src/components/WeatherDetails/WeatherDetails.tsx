@@ -1,13 +1,13 @@
 import { FC, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 //css
 import "./weather-details.css";
 //types
 import { IWeatherDetailsApi } from "types/weather-api";
 //helpers
-import { daysArray } from "helpers/helpers";
-import { api } from "helpers/helpers";
+import { daysArray } from "helpers/consts";
+import { api } from "helpers/consts";
 
 export const WeatherDetails: FC = () => {
   const { city } = useParams();
@@ -37,7 +37,7 @@ export const WeatherDetails: FC = () => {
         setLoading(false);
         setError(error.message);
       });
-  }, []);
+  }, [city]);
 
   return (
     <>
@@ -50,23 +50,28 @@ export const WeatherDetails: FC = () => {
             let dateObj = new Date(item.dt * 1000);
 
             return (
-              <div key={i} className="day-card">
-                <p className="text-center">{daysArray[dateObj.getDay()]}</p>
-                <img
-                  src={`http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`}
-                  alt=""
-                />
-                <div className="temp">
-                  <div>
-                    <p className="mb-0">Min:</p>
-                    <p className="mt-0"> {Math.floor(item.temp.min)}°C</p>
-                  </div>
-                  <div>
-                    <p className="mb-0">Max:</p>
-                    <p className="mt-0"> {Math.floor(item.temp.max)}°C</p>
+              <Link
+                key={i}
+                to={`/weather/${city}/${daysArray[dateObj.getDay()]}`}
+              >
+                <div className="day-card">
+                  <p className="text-center">{daysArray[dateObj.getDay()]}</p>
+                  <img
+                    src={`http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`}
+                    alt=""
+                  />
+                  <div className="temp">
+                    <div>
+                      <p className="mb-0">Min:</p>
+                      <p className="mt-0"> {Math.floor(item.temp.min)}°C</p>
+                    </div>
+                    <div>
+                      <p className="mb-0">Max:</p>
+                      <p className="mt-0"> {Math.floor(item.temp.max)}°C</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
       </div>

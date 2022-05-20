@@ -11,3 +11,10 @@ export interface IWeatherDetailsApi {
   weather: [{ icon: string }];
   temp: { min: number; max: number };
 }
+
+export interface IWeatherApiDay {
+  dt: number;
+  dt_txt: string;
+  weather: [{ icon: string }];
+  main: { temp: number };
+}

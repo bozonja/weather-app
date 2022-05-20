@@ -8,6 +8,7 @@ import Login from "./components/Login/Login";
 import Weather from "./components/Weather/Weather";
 import { WeatherDetails } from "components/WeatherDetails/WeatherDetails";
 import { NotFound } from "components/NotFound";
+import { Day } from "components/Day/Day";
 //types
 import { IUserLogin } from "./types/form";
 import { IWeatherApi } from "types/weather-api";
@@ -109,6 +110,7 @@ function App() {
           }
         />
         <Route path="/weather/:city" element={<WeatherDetails />} />
+        <Route path="/weather/:city/:day" element={<Day />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

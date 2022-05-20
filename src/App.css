@@ -56,6 +56,26 @@ h3 {
   margin-top: 0;
 }
 
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table,
+th,
+td {
+  border: 1px solid white;
+}
+
+td,
+th {
+  padding: 0.5rem;
+}
+
+th {
+  background-color: #013844;
+}
+
 .container {
   width: 70%;
   margin: 0 auto;

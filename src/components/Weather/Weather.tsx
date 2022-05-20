@@ -7,8 +7,8 @@ import { IUserLogin } from "types/form";
 //css
 import "./weather.css";
 //helpers
-import { daysArray } from "helpers/helpers";
-import { api } from "helpers/helpers";
+import { daysArray } from "helpers/consts";
+import { api } from "helpers/consts";
 
 interface IWeather {
   user: IUserLogin;
