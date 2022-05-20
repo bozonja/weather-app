@@ -9,6 +9,9 @@ import "./weather.css";
 //helpers
 import { daysArray } from "helpers/consts";
 import { api } from "helpers/consts";
+//assets
+import { TrashIcon } from "assets/TrashIcon";
+import { StarIcon } from "assets/StarIcon";
 
 interface IWeather {
   user: IUserLogin;
@@ -92,6 +95,11 @@ const Weather: FC<IWeather> = ({
     return `${day} ${date} ${month} ${year}`;
   };
 
+  const deleteCity = (id: number | undefined) => {
+    let filteredWeather = weather.filter((item) => item.id !== id);
+    setWeather(filteredWeather);
+  };
+
   return (
     <>
       {user.email !== "" ? (
@@ -122,8 +130,8 @@ const Weather: FC<IWeather> = ({
           <div className="weather-cards">
             {weather &&
               weather.map((item: IWeatherApi) => (
-                <Link to={`/weather/${item.name}`} key={item.id}>
-                  <div className="weather-card">
+                <div className="weather-card" key={item.id}>
+                  <Link to={`/weather/${item.name}`}>
                     <h2 className="text-center mb-0">
                       {item.name}, {item.sys.country}
                     </h2>
@@ -132,8 +140,16 @@ const Weather: FC<IWeather> = ({
                       {Math.floor(item.main.temp)}° C
                     </h3>
                     <p className="text-center">{item.weather[0].main}</p>
+                  </Link>
+                  <div className="weather-card-footer">
+                    <div onClick={() => console.log("favourite")}>
+                      <StarIcon />
+                    </div>
+                    <div onClick={() => deleteCity(item.id)}>
+                      <TrashIcon />
+                    </div>
                   </div>
-                </Link>
+                </div>
               ))}
           </div>
         </>
