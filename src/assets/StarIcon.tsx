@@ -6,7 +6,7 @@ export const StarIcon: FC = () => {
       xmlns="http://www.w3.org/2000/svg"
       width={24}
       height={24}
-      fill="#d9e73c"
+      fill="white"
       viewBox="0 0 16 16"
     >
       <path

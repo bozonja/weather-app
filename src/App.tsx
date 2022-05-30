@@ -9,6 +9,7 @@ import Weather from "./components/Weather/Weather";
 import { WeatherDetails } from "components/WeatherDetails/WeatherDetails";
 import { NotFound } from "components/NotFound";
 import { Day } from "components/Day/Day";
+import { Favorites } from "components/Favorites";
 //types
 import { IUserLogin } from "./types/form";
 import { IWeatherApi } from "types/weather-api";
@@ -35,6 +36,7 @@ function App() {
   });
   const [loginError, setLoginError] = useState<string>("");
   const [weather, setWeather] = useState<IWeatherApi[]>([]);
+  const [favorites, setFavorites] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState(null);
 
@@ -90,6 +92,8 @@ function App() {
                 setError={setError}
                 loading={loading}
                 setLoading={setLoading}
+                favorites={favorites}
+                setFavorites={setFavorites}
               />
             )
           }
@@ -106,11 +110,14 @@ function App() {
               setError={setError}
               loading={loading}
               setLoading={setLoading}
+              favorites={favorites}
+              setFavorites={setFavorites}
             />
           }
         />
         <Route path="/weather/:city" element={<WeatherDetails />} />
         <Route path="/weather/:city/:day" element={<Day />} />
+        <Route path="/weather/favorites" element={<Favorites />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

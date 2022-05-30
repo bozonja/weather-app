@@ -1,4 +1,11 @@
-import { FC, SetStateAction, Dispatch, useState, FormEvent } from "react";
+import {
+  FC,
+  SetStateAction,
+  Dispatch,
+  useState,
+  FormEvent,
+  useEffect,
+} from "react";
 import { Link } from "react-router-dom";
 
 //types
@@ -7,8 +14,8 @@ import { IUserLogin } from "types/form";
 //css
 import "./weather.css";
 //helpers
-import { daysArray } from "helpers/consts";
-import { api } from "helpers/consts";
+import { api, dateObject } from "helpers/consts";
+import { createDate } from "helpers/functions";
 //assets
 import { TrashIcon } from "assets/TrashIcon";
 import { StarIcon } from "assets/StarIcon";
@@ -22,6 +29,8 @@ interface IWeather {
   setError: Dispatch<SetStateAction<null>>;
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
+  favorites: IWeatherApi[];
+  setFavorites: Dispatch<SetStateAction<any>>;
 }
 
 const Weather: FC<IWeather> = ({
@@ -33,23 +42,21 @@ const Weather: FC<IWeather> = ({
   setError,
   loading,
   setLoading,
+  favorites,
+  setFavorites,
 }) => {
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+  const FAVORITES = "FAVORITES";
 
-  const dateObject = new Date();
+  useEffect(() => {
+    const localData = localStorage.getItem(FAVORITES);
+    if (localData) {
+      setFavorites(JSON.parse(localData));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(FAVORITES, JSON.stringify(favorites));
+  });
 
   const [logOutNotification, setLogOutNotification] = useState<boolean>(false);
   const [city, setCity] = useState<string>("");
@@ -87,23 +94,22 @@ const Weather: FC<IWeather> = ({
     });
   };
 
-  const createDate = (dateObject: Date) => {
-    const day = daysArray[dateObject.getDay()];
-    const date = dateObject.getDate();
-    const month = months[dateObject.getMonth()];
-    const year = dateObject.getFullYear();
-    return `${day} ${date} ${month} ${year}`;
-  };
-
   const deleteCity = (id: number | undefined) => {
     let filteredWeather = weather.filter((item) => item.id !== id);
     setWeather(filteredWeather);
   };
 
+  const addToFavorite = (name: string) => {
+    const weatherData = weather.find((item) => item.name === name);
+    if (!favorites.some((item: any) => item.name === name)) {
+      setFavorites([...favorites, weatherData]);
+    }
+  };
+
   return (
     <>
       {user.email !== "" ? (
-        <>
+        <div>
           <div className="text-right mb-lg">
             <button className="btn-link" onClick={handleLogout}>
               Log out
@@ -142,7 +148,7 @@ const Weather: FC<IWeather> = ({
                     <p className="text-center">{item.weather[0].main}</p>
                   </Link>
                   <div className="weather-card-footer">
-                    <div onClick={() => console.log("favourite")}>
+                    <div onClick={() => addToFavorite(item.name)}>
                       <StarIcon />
                     </div>
                     <div onClick={() => deleteCity(item.id)}>
@@ -152,7 +158,7 @@ const Weather: FC<IWeather> = ({
                 </div>
               ))}
           </div>
-        </>
+        </div>
       ) : (
         <>
           <p>
