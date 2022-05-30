@@ -11,8 +11,6 @@ import { Link } from "react-router-dom";
 //types
 import { IWeatherApi } from "types/weather-api";
 import { IUserLogin } from "types/form";
-//css
-import "./search-weather.css";
 //helpers
 import { api, dateObject } from "helpers/consts";
 import { createDate } from "helpers/functions";
@@ -20,7 +18,7 @@ import { createDate } from "helpers/functions";
 import { TrashIcon } from "assets/TrashIcon";
 import { StarIcon } from "assets/StarIcon";
 
-interface IWeather {
+interface ISearchWeather {
   user: IUserLogin;
   setUser: Dispatch<SetStateAction<IUserLogin>>;
   weather: IWeatherApi[];
@@ -33,7 +31,7 @@ interface IWeather {
   setFavorites: Dispatch<SetStateAction<any>>;
 }
 
-export const SearchWeather: FC<IWeather> = ({
+export const SearchWeather: FC<ISearchWeather> = ({
   user,
   setUser,
   weather,
@@ -52,7 +50,7 @@ export const SearchWeather: FC<IWeather> = ({
     if (localData) {
       setFavorites(JSON.parse(localData));
     }
-  }, []);
+  }, [setFavorites]);
 
   useEffect(() => {
     localStorage.setItem(FAVORITES, JSON.stringify(favorites));

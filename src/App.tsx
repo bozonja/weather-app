@@ -5,7 +5,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import "./App.css";
 //comps
 import Login from "./components/Login/Login";
-import { SearchWeather } from "./components/SearchWeather/SearchWeather";
+import { SearchWeather } from "./components/SearchWeather";
 import { WeeklyForecast } from "components/WeeklyForecast/WeeklyForecast";
 import { NotFound } from "components/NotFound";
 import { DayForecastTable } from "components/DayForecastTable/DayForecastTable";
