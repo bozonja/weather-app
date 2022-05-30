@@ -117,8 +117,11 @@ function App() {
             />
           }
         />
-        <Route path="/weather/:city" element={<WeeklyForecast />} />
-        <Route path="/weather/:city/:day" element={<DayForecastTable />} />
+        <Route path="/weather/:city" element={<WeeklyForecast user={user} />} />
+        <Route
+          path="/weather/:city/:day"
+          element={<DayForecastTable user={user} />}
+        />
         <Route path="/weather/favorites" element={<Favorites user={user} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

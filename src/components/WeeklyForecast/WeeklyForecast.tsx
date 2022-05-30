@@ -4,12 +4,13 @@ import { Link, useParams } from "react-router-dom";
 //css
 import "./weekly-forecast.css";
 //types
+import { IUserLogin } from "types/form";
 import { IWeeklyForecastApi } from "types/weather-api";
 //helpers
 import { daysArray } from "helpers/consts";
 import { api } from "helpers/consts";
 
-export const WeeklyForecast: FC = () => {
+export const WeeklyForecast: FC<{ user: IUserLogin }> = ({ user }) => {
   const { city } = useParams();
 
   const [forecast, setForecast] = useState<IWeeklyForecastApi[]>([]);
@@ -42,39 +43,46 @@ export const WeeklyForecast: FC = () => {
   return (
     <>
       <h1>{city} Forecast</h1>
-      {loading && <div>Loading...</div>}
-      {error && <div className="error">{error}</div>}
-      <div className="day-cards">
-        {forecast &&
-          forecast.map((item: IWeeklyForecastApi, i: number) => {
-            let dateObj = new Date(item.dt * 1000);
+      {user.email !== "" && (
+        <>
+          {" "}
+          {loading && <div>Loading...</div>}
+          {error && <div className="error">{error}</div>}
+          <div className="day-cards">
+            {forecast &&
+              forecast.map((item: IWeeklyForecastApi, i: number) => {
+                let dateObj = new Date(item.dt * 1000);
 
-            return (
-              <Link
-                key={i}
-                to={`/weather/${city}/${daysArray[dateObj.getDay()]}`}
-              >
-                <div className="day-card">
-                  <p className="text-center">{daysArray[dateObj.getDay()]}</p>
-                  <img
-                    src={`http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`}
-                    alt=""
-                  />
-                  <div className="temp">
-                    <div>
-                      <p className="mb-0">Min:</p>
-                      <p className="mt-0"> {Math.floor(item.temp.min)}°C</p>
+                return (
+                  <Link
+                    key={i}
+                    to={`/weather/${city}/${daysArray[dateObj.getDay()]}`}
+                  >
+                    <div className="day-card">
+                      <p className="text-center">
+                        {daysArray[dateObj.getDay()]}
+                      </p>
+                      <img
+                        src={`http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`}
+                        alt=""
+                      />
+                      <div className="temp">
+                        <div>
+                          <p className="mb-0">Min:</p>
+                          <p className="mt-0"> {Math.floor(item.temp.min)}°C</p>
+                        </div>
+                        <div>
+                          <p className="mb-0">Max:</p>
+                          <p className="mt-0"> {Math.floor(item.temp.max)}°C</p>
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <p className="mb-0">Max:</p>
-                      <p className="mt-0"> {Math.floor(item.temp.max)}°C</p>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-      </div>
+                  </Link>
+                );
+              })}
+          </div>
+        </>
+      )}
     </>
   );
 };

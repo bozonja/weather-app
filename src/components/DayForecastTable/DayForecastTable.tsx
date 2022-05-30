@@ -6,8 +6,9 @@ import { daysArray } from "helpers/consts";
 import { api } from "helpers/consts";
 //types
 import { IDayForecastApi } from "types/weather-api";
+import { IUserLogin } from "types/form";
 
-export const DayForecastTable: FC = () => {
+export const DayForecastTable: FC<{ user: IUserLogin }> = ({ user }) => {
   const { day, city } = useParams();
 
   const [dayArray, setDayArray] = useState<IDayForecastApi[]>();
@@ -43,45 +44,50 @@ export const DayForecastTable: FC = () => {
   };
 
   return (
-    <div>
+    <>
       <h2>{day}</h2>
-      {loading && <div>Loading...</div>}
-      {error && <div className="error">{error}</div>}
-      <table>
-        <thead>
-          <tr>
-            <th>Hour</th>
-            <th>Weather</th>
-            <th>Temp</th>
-          </tr>
-        </thead>
-        <tbody>
-          {dayArray &&
-            dayArray
-              .filter(
-                (item: IDayForecastApi) =>
-                  daysArray[new Date(item.dt * 1000).getDay()] === day
-              )
-              .map((item: IDayForecastApi) => {
-                let dateObj = new Date(item.dt * 1000);
-                return (
-                  <tr key={item.dt_txt}>
-                    <td>
-                      {addZero(dateObj.getUTCHours())}:{dateObj.getUTCMinutes()}
-                      {dateObj.getUTCSeconds()}
-                    </td>
-                    <td>
-                      <img
-                        src={`http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`}
-                        alt=""
-                      />
-                    </td>
-                    <td>{Math.floor(item.main.temp)}°C</td>
-                  </tr>
-                );
-              })}
-        </tbody>
-      </table>
-    </div>
+      {user.email !== "" && (
+        <>
+          {loading && <div>Loading...</div>}
+          {error && <div className="error">{error}</div>}
+          <table>
+            <thead>
+              <tr>
+                <th>Hour</th>
+                <th>Weather</th>
+                <th>Temp</th>
+              </tr>
+            </thead>
+            <tbody>
+              {dayArray &&
+                dayArray
+                  .filter(
+                    (item: IDayForecastApi) =>
+                      daysArray[new Date(item.dt * 1000).getDay()] === day
+                  )
+                  .map((item: IDayForecastApi) => {
+                    let dateObj = new Date(item.dt * 1000);
+                    return (
+                      <tr key={item.dt_txt}>
+                        <td>
+                          {addZero(dateObj.getUTCHours())}:
+                          {dateObj.getUTCMinutes()}
+                          {dateObj.getUTCSeconds()}
+                        </td>
+                        <td>
+                          <img
+                            src={`http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`}
+                            alt=""
+                          />
+                        </td>
+                        <td>{Math.floor(item.main.temp)}°C</td>
+                      </tr>
+                    );
+                  })}
+            </tbody>
+          </table>
+        </>
+      )}
+    </>
   );
 };
