@@ -6,13 +6,13 @@ export interface IWeatherApi {
   weather: [{ main: string }];
 }
 
-export interface IWeatherDetailsApi {
+export interface IWeeklyForecastApi {
   dt: number;
   weather: [{ icon: string }];
   temp: { min: number; max: number };
 }
 
-export interface IWeatherApiDay {
+export interface IDayForecastApi {
   dt: number;
   dt_txt: string;
   weather: [{ icon: string }];

@@ -40,6 +40,10 @@ button:hover {
   background-color: #dbd402;
 }
 
+li {
+  list-style-type: none;
+}
+
 a {
   color: white;
   text-decoration: underline;
@@ -128,4 +132,14 @@ th {
 
 .h1-lg {
   font-size: 3rem;
+}
+
+.navigation {
+  display: flex;
+  padding-left: 0;
+}
+
+.navigation-item {
+  margin-right: 1rem;
+  font-size: 1.2rem;
 }

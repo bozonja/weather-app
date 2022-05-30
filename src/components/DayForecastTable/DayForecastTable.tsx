@@ -5,12 +5,12 @@ import { useParams } from "react-router-dom";
 import { daysArray } from "helpers/consts";
 import { api } from "helpers/consts";
 //types
-import { IWeatherApiDay } from "types/weather-api";
+import { IDayForecastApi } from "types/weather-api";
 
-export const Day: FC = () => {
+export const DayForecastTable: FC = () => {
   const { day, city } = useParams();
 
-  const [dayArray, setDayArray] = useState<IWeatherApiDay[]>();
+  const [dayArray, setDayArray] = useState<IDayForecastApi[]>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState(null);
 
@@ -59,10 +59,10 @@ export const Day: FC = () => {
           {dayArray &&
             dayArray
               .filter(
-                (item: IWeatherApiDay) =>
+                (item: IDayForecastApi) =>
                   daysArray[new Date(item.dt * 1000).getDay()] === day
               )
-              .map((item: IWeatherApiDay) => {
+              .map((item: IDayForecastApi) => {
                 let dateObj = new Date(item.dt * 1000);
                 return (
                   <tr key={item.dt_txt}>

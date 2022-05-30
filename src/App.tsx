@@ -5,11 +5,12 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import "./App.css";
 //comps
 import Login from "./components/Login/Login";
-import Weather from "./components/Weather/Weather";
-import { WeatherDetails } from "components/WeatherDetails/WeatherDetails";
+import { SearchWeather } from "./components/SearchWeather/SearchWeather";
+import { WeeklyForecast } from "components/WeeklyForecast/WeeklyForecast";
 import { NotFound } from "components/NotFound";
-import { Day } from "components/Day/Day";
+import { DayForecastTable } from "components/DayForecastTable/DayForecastTable";
 import { Favorites } from "components/Favorites";
+import { Navigation } from "components/Navigation";
 //types
 import { IUserLogin } from "./types/form";
 import { IWeatherApi } from "types/weather-api";
@@ -72,6 +73,7 @@ function App() {
   return (
     <div className="container">
       <h1 className="text-center h1-lg">Weather App</h1>
+      {user.email !== "" && <Navigation />}
       <Routes>
         <Route
           path="/"
@@ -83,7 +85,7 @@ function App() {
                 loginError={loginError}
               />
             ) : (
-              <Weather
+              <SearchWeather
                 setUser={setUser}
                 user={user}
                 weather={weather}
@@ -101,7 +103,7 @@ function App() {
         <Route
           path="/weather"
           element={
-            <Weather
+            <SearchWeather
               setUser={setUser}
               user={user}
               weather={weather}
@@ -115,9 +117,9 @@ function App() {
             />
           }
         />
-        <Route path="/weather/:city" element={<WeatherDetails />} />
-        <Route path="/weather/:city/:day" element={<Day />} />
-        <Route path="/weather/favorites" element={<Favorites />} />
+        <Route path="/weather/:city" element={<WeeklyForecast />} />
+        <Route path="/weather/:city/:day" element={<DayForecastTable />} />
+        <Route path="/weather/favorites" element={<Favorites user={user} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

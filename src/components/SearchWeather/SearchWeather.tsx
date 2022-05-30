@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { IWeatherApi } from "types/weather-api";
 import { IUserLogin } from "types/form";
 //css
-import "./weather.css";
+import "./search-weather.css";
 //helpers
 import { api, dateObject } from "helpers/consts";
 import { createDate } from "helpers/functions";
@@ -33,7 +33,7 @@ interface IWeather {
   setFavorites: Dispatch<SetStateAction<any>>;
 }
 
-const Weather: FC<IWeather> = ({
+export const SearchWeather: FC<IWeather> = ({
   user,
   setUser,
   weather,
@@ -172,5 +172,3 @@ const Weather: FC<IWeather> = ({
     </>
   );
 };
-
-export default Weather;

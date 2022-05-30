@@ -2,17 +2,17 @@ import { FC, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 //css
-import "./weather-details.css";
+import "./weekly-forecast.css";
 //types
-import { IWeatherDetailsApi } from "types/weather-api";
+import { IWeeklyForecastApi } from "types/weather-api";
 //helpers
 import { daysArray } from "helpers/consts";
 import { api } from "helpers/consts";
 
-export const WeatherDetails: FC = () => {
+export const WeeklyForecast: FC = () => {
   const { city } = useParams();
 
-  const [forecast, setForecast] = useState<IWeatherDetailsApi[]>([]);
+  const [forecast, setForecast] = useState<IWeeklyForecastApi[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState(null);
 
@@ -46,7 +46,7 @@ export const WeatherDetails: FC = () => {
       {error && <div className="error">{error}</div>}
       <div className="day-cards">
         {forecast &&
-          forecast.map((item: IWeatherDetailsApi, i: number) => {
+          forecast.map((item: IWeeklyForecastApi, i: number) => {
             let dateObj = new Date(item.dt * 1000);
 
             return (
